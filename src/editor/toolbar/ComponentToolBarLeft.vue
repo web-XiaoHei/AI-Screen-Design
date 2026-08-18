@@ -11,10 +11,10 @@
             @click="panelVisible.property = !panelVisible.property">
             <icon-fluent-panel-right-20-filled />
         </div>
-        <div class="toolItem" @click="undo">
+        <div class="toolItem" @click="undo" :class="{ disable: !canUndo }">
             <icon-material-symbols-undo />
         </div>
-        <div class="toolItem" @click="redo">
+        <div class="toolItem" @click="redo" :class="{ disable: !canRedo }">
             <icon-material-symbols-redo />
         </div>
     </div>
@@ -28,7 +28,7 @@ defineOptions({
 })
 const { panelVisible } = useEditorStore()
 
-const { undo, redo } = useUndoRedo()
+const { canUndo, canRedo, undo, redo } = useUndoRedo()
 
 </script>
 
@@ -39,6 +39,11 @@ const { undo, redo } = useUndoRedo()
 
     & .active {
         background-color: #5e8382;
+    }
+
+    & .disable {
+        opacity: 0.4;
+        cursor: not-allowed;
     }
 }
 

@@ -5,7 +5,8 @@
                 <el-form class="p-20" size="small" label-position="left" label-width="60px">
                     <el-form-item :label="setter.label">
                         <component :is="componentMap[setter.type]" :modelValue="getValue(formData, setter.key)"
-                            @update:modelValue="(value: unknown) => applyChange(formData, setter.key, value)" />
+                            @update:modelValue="(value: unknown) => applyChange(formData, setter.key, value)"
+                            @focus="startBatch" @blur="commitBatch" />
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -25,7 +26,7 @@ defineOptions({
 
 defineProps(['setters', 'formData'])
 
-const { applyChange } = useUndoRedo()
+const { applyChange, startBatch, commitBatch } = useUndoRedo()
 
 const componentMap: Record<string, Component> = {
     input: ElInput,
