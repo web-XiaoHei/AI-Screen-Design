@@ -11,6 +11,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.2
         version: 4.3.2(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(yaml@2.9.0))
+      echarts:
+        specifier: ^6.1.0
+        version: 6.1.0
       element-plus:
         specifier: ^2.14.3
         version: 2.14.3(vue@3.5.39(typescript@6.0.3))
@@ -74,7 +77,7 @@ importers:
         version: 1.2.17
       '@iconify-json/solar':
         specifier: ^1.2.5
-        version: 1.2.5
+        version: 1.2.7
       '@iconify-json/uil':
         specifier: ^1.2.3
         version: 1.2.3
@@ -439,8 +442,8 @@ packages:
   '@iconify-json/si@1.2.17':
     resolution: {integrity: sha512-Jzz3DlAhQCjIhTvLA7PQ/cFhHp4mAS4rzbwwWPOlIqUeYotfocy0VFQjaKGsSk9rLmM5mOuEocyqZpf3sYHDvw==}
 
-  '@iconify-json/solar@1.2.5':
-    resolution: {integrity: sha512-WMAiNwchU8zhfrySww6KQBRIBbsQ6SvgIu2yA+CHGyMima/0KQwT5MXogrZPJGoQF+1Ye3Qj6K+1CiyNn3YkoA==}
+  '@iconify-json/solar@1.2.7':
+    resolution: {integrity: sha512-MfQIlOJl2h17GGV30cuknjz7CmSlVt23f4EKK1QVGZKooqh2GRXMb/KV0A5GgQBBmYCTsIOiXYBJ8t30a2EZQA==}
 
   '@iconify-json/uil@1.2.3':
     resolution: {integrity: sha512-if91+UBhDQc6glPsIaXecGIcXnbQZfEO4Gdv89TV2xQ+V5e9GWbY5rNl2fsKZd8COsRQ5lRQAKimVQVL0CZZVg==}
@@ -1342,6 +1345,9 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
+
+  echarts@6.1.0:
+    resolution: {integrity: sha512-q0yaFPggC9FUdsWH4blavRWFmxdrIodbkoKNAjJudAI6CA9gNPxHtV2RcZNEepZVlk4yvBYkOkbk6HIVpIyHZA==}
 
   electron-to-chromium@1.5.389:
     resolution: {integrity: sha512-cEto7aeOqBfU1D+c5py5pE+ooscKE75JifxLBdFUZsqAxRS6y7kebtxAZvICszSl05gPjYHDTjY+lXpyGvpJbg==}
@@ -2261,6 +2267,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  tslib@2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
+
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -2561,6 +2570,9 @@ packages:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
     hasBin: true
+
+  zrender@6.1.0:
+    resolution: {integrity: sha512-oEGMDB6pOP2S6OwRR4PdVv610zrjnA3Bh+JnSG12fYJlBKjtNAoEb5fSUoCOOINlH96I2fU38/A2UpRKs67xYQ==}
 
 snapshots:
 
@@ -2919,7 +2931,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/solar@1.2.5':
+  '@iconify-json/solar@1.2.7':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -3734,6 +3746,11 @@ snapshots:
   detect-libc@2.1.2: {}
 
   eastasianwidth@0.2.0: {}
+
+  echarts@6.1.0:
+    dependencies:
+      tslib: 2.3.0
+      zrender: 6.1.0
 
   electron-to-chromium@1.5.389: {}
 
@@ -4591,6 +4608,8 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
+  tslib@2.3.0: {}
+
   tslib@2.8.1: {}
 
   type-check@0.4.0:
@@ -4892,3 +4911,7 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.9.0: {}
+
+  zrender@6.1.0:
+    dependencies:
+      tslib: 2.3.0

@@ -1,7 +1,9 @@
+import { useUndoRedo } from '@/hook/useUndoRedo'
 import { type OnDrag, type OnDragGroup, type OnResize, type OnResizeGroup } from 'vue3-moveable'
 
 export function useMoveable() {
   const editorStore = useEditorStore()
+  const { applyChange, startBatch, commitBatch } = useUndoRedo()
   const { nodes, canvas } = storeToRefs(editorStore)
 
   function clamp(value: number, min: number, max: number) {
@@ -38,8 +40,11 @@ export function useMoveable() {
     const node = getNodeByTarget(target)
 
     if (node) {
-      node.layout.x = position.left
-      node.layout.y = position.top
+      applyChange(node, 'layout', {
+        ...node.layout,
+        x: position.left,
+        y: position.top,
+      })
     }
   }
 
@@ -56,10 +61,13 @@ export function useMoveable() {
 
     const node = getNodeByTarget(target)
     if (node) {
-      node.layout.width = width
-      node.layout.height = height
-      node.layout.x = position.left
-      node.layout.y = position.top
+      applyChange(node, 'layout', {
+        ...node.layout,
+        x: position.left,
+        y: position.top,
+        width,
+        height,
+      })
     }
 
     // 缩放后会伴随位置变化，使用 onDrag 更新位置信息
@@ -81,14 +89,14 @@ export function useMoveable() {
     e.events.forEach(onResize)
   }
 
-  function onStart(e: Event) {
+  function onStart() {
     // 拖拽或缩放开始时的处理逻辑
-    console.log('Moveable onStart', e)
+    startBatch()
   }
 
-  function onEnd(e: Event) {
+  function onEnd() {
     // 拖拽或缩放结束时的处理逻辑
-    console.log('Moveable onEnd', e)
+    commitBatch()
   }
 
   return {

@@ -41,14 +41,10 @@
             :selectFromInside="false" toggleContinueSelect="shift" @select-end="onSelectEnd">
         </Selecto>
         <!-- Moveable：提供拖拽/缩放能力 -->
-        <!-- <Moveable ref="moveable" :target="selectedTarget" :origin="false" :draggable="true" :resizable="true"
-            @drag="onDrag" @dragStart="onStart" @drag-end="onEnd" @drag-group="onDragGroup" @drag-group-start="onStart"
+        <Moveable ref="moveable" :target="selectedTarget" :origin="false" :draggable="true" :resizable="true"
+            @drag="onDrag" @drag-group="onDragGroup" @dragStart="onStart" @drag-end="onEnd" @drag-group-start="onStart"
             @drag-group-end="onEnd" @resize="onResize" @resize-group="onResizeGroup" @resize-start="onStart"
             @resize-end="onEnd" @resize-group-start="onStart" @resize-group-end="onEnd">
-            >
-        </Moveable> -->
-        <Moveable ref="moveable" :target="selectedTarget" :origin="false" :draggable="true" :resizable="true"
-            @drag="onDrag" @drag-group="onDragGroup" @resize="onResize" @resize-group="onResizeGroup">
             >
         </Moveable>
     </div>
@@ -93,7 +89,7 @@ const {
 })
 
 // 使用自定义 hook 管理 Moveable 的拖拽和缩放事件
-const { onDrag, onResize, onDragGroup, onResizeGroup } = useMoveable()
+const { onDrag, onResize, onDragGroup, onResizeGroup, onStart, onEnd } = useMoveable()
 
 // 使用自定义 hook 管理节点的选择和框选
 const { selectedTarget, onSelect, onSelectEnd } = useSelection({

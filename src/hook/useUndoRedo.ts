@@ -1,6 +1,8 @@
 import { computed, shallowReactive, shallowRef } from 'vue'
 import { getValue, setValue } from '@/utils'
 
+const MAX_HISTORY_LENGTH = 1000
+
 // 单次属性修改记录，保存“修改前”和“修改后”的值。
 // 这样既可以恢复旧值，也可以重做新值。
 interface UndoRedoRecord<TTarget extends object = object> {
@@ -25,8 +27,10 @@ const history = {
 }
 
 // 开始收集一批修改，直到 commitBatch 被调用。
-// 这样多个属性的更新可以视为一次操作，而不是多个独立撤销节点。
+// 这里要避免重复调用 startBatch 覆盖已存在的批次，
+// 否则拖拽/缩放这类连续操作会被拆成多个短事务，造成撤销时仍表现为单步。
 function startBatch() {
+  if (history.activeBatch.value) return
   history.activeBatch.value = []
 }
 
@@ -34,9 +38,9 @@ function startBatch() {
 // 若当前批次为空则直接丢弃；若存在记录，则作为一个整体压栈。
 function commitBatch() {
   const batch = history.activeBatch.value
-
-  if (batch && batch.length > 0) {
-    history.undoStack.push(batch)
+  if (!batch) return
+  if (batch.length > 0) {
+    pushRecord(batch)
   }
 
   history.activeBatch.value = null
@@ -47,8 +51,17 @@ function commitBatch() {
 function clearRedoStack() {
   history.redoStack.length = 0
 }
+/**
+ * 如果栈已经超出了最大值，把最前面的移除掉
+ */
+function pushRecord(record: UndoRedoBatch) {
+  history.undoStack.push(record)
+  if (history.undoStack.length > MAX_HISTORY_LENGTH) {
+    history.undoStack.shift()
+  }
+}
 
-export function useUndoRedo<TTarget extends object = Record<string, unknown>>() {
+export function useUndoRedo<TTarget extends object = object>() {
   // 是否还有可撤销的操作。
   const canUndo = computed(() => history.undoStack.length > 0)
   // 是否还有可重做的操作。
@@ -90,12 +103,12 @@ export function useUndoRedo<TTarget extends object = Record<string, unknown>>() 
       batch.push(record)
     } else {
       // 非批量模式下，单次修改作为一个独立撤销单元压入 undoStack。
-      history.undoStack.push([record])
+      pushRecord([record])
     }
 
     // 真正写入新值到目标对象。
     setValue(target, key, newValue)
-    // 任何新改动都会使以前的重做历史失效。 
+    // 任何新改动都会使以前的重做历史失效。
     clearRedoStack()
   }
 
@@ -141,7 +154,7 @@ export function useUndoRedo<TTarget extends object = Record<string, unknown>>() 
       setValue(target, key, newValue)
     }
 
-    history.undoStack.push(records)
+    pushRecord(records)
   }
 
   return {
