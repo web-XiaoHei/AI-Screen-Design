@@ -7,9 +7,11 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue').EffectScope
+  const ElCke: typeof import('element-plus/es').ElCke
   const ElColorPicker: typeof import('element-plus/es').ElColorPicker
   const ElInput: typeof import('element-plus/es').ElInput
   const ElInputNumber: typeof import('element-plus/es').ElInputNumber
+  const ElS: typeof import('element-plus/es').ElS
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const computed: typeof import('vue').computed
   const createApp: typeof import('vue').createApp

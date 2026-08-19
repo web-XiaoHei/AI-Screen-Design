@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AboutView: typeof import('./../src/views/AboutView.vue')['default']
+    ComponentBarCharts: typeof import('./../src/materials/charts/Component/ComponentBarCharts.vue')['default']
     ComponentCanvas: typeof import('./../src/editor/canvas/ComponentCanvas.vue')['default']
     ComponentCanvasProperty: typeof import('./../src/editor/panels/property/Component/ComponentCanvasProperty.vue')['default']
     ComponentFormCreate: typeof import('./../src/editor/panels/property/Component/ComponentFormCreate.vue')['default']

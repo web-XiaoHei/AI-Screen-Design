@@ -8,8 +8,8 @@
             </div>
         </div>
 
-        <div class="flex-1 p-10 overflow-auto" v-for="item in currentMaterials" :key="item.name">
-            <ComponentMaterialItem class="mt-10" :material="item" />
+        <div class="material-list flex-1 p-10 overflow-auto">
+            <ComponentMaterialItem class="mt-10" v-for="item in currentMaterials" :key="item.name" :material="item" />
         </div>
     </div>
 </template>
