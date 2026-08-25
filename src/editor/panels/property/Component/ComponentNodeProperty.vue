@@ -1,5 +1,17 @@
 <template>
     <div class="node-property">
+
+        <div class="node-title">
+            <span>{{ selectedNode.name }}</span>
+            <div class="flex gap-20">
+                <!-- <span class="cursor-pointer" @click="eventVisible = true">
+                    <Icon icon="codicon:symbol-event"></Icon>
+                </span> -->
+                <span class="cursor-pointer" @click="previewJson">
+                    <icon-si-json-duotone />
+                </span>
+            </div>
+        </div>
         <el-collapse v-model="active" accordion>
             <el-collapse-item title="布局属性" name="layout">
                 <ComponentFormCreate :setters="layoutSetters" :formData="selectedNode" />
@@ -8,7 +20,15 @@
                 <ComponentFormCreate :setters="setters" :formData="selectedNode" />
             </el-collapse-item>
         </el-collapse>
+        <!-- 预览 json -->
+        <el-drawer :destroy-on-close="true" v-model="jsonVisible" title="编辑 JSON" size="800">
+            <ComponentMonacoEditor v-model="jsonText" />
 
+            <template #footer>
+                <el-button @click="jsonVisible = false">取消</el-button>
+                <el-button type="primary" @click="onConfirm">确认</el-button>
+            </template>
+        </el-drawer>
     </div>
 </template>
 
@@ -50,10 +70,40 @@ const layoutSetters = [{
 },]
 
 const active = ref('layout')
+const jsonVisible = ref(false)
+const jsonText = ref('')
+function previewJson() {
+    jsonText.value = JSON.stringify(selectedNode.value, null, 2)
+    jsonVisible.value = true
+}
+
+function onConfirm() {
+    // 拿到新节点
+    const newNode = JSON.parse(jsonText.value)
+    // 更新
+    editorStore.updateNode(selectedNode.value.id, {
+        ...newNode,
+        // id type 不能改，沿用之前的
+        id: selectedNode.value.id,
+        type: selectedNode.value.type,
+    })
+    // 关掉抽屉
+    jsonVisible.value = false
+}
 </script>
 
 <style scoped>
 .node-property {
+    .node-title {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: bg-mix(40);
+        font-weight: 600;
+        padding: 0 20px;
+    }
+
     :deep(.el-collapse) {
         --el-collapse-border-color: var(--border-color);
         --el-collapse-header-height: 48px;

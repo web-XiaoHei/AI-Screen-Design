@@ -126,6 +126,15 @@ export const useEditorStore = defineStore('editor', () => {
     selectNode(newNode.id)
   }
 
+  function updateNode(id: string, node: MaterialSchema) {
+    const index = nodes.value.findIndex((n) => n.id === id)
+
+    if (index !== -1) {
+      const newNodes = nodes.value.toSpliced(index, 1, node)
+      setNodes(newNodes)
+    }
+  }
+
   /**
    * 删除节点，并清理其对应的选中状态。
    */
@@ -187,5 +196,6 @@ export const useEditorStore = defineStore('editor', () => {
     moveTop,
     moveBottom,
     toggleLock,
+    updateNode,
   }
 })

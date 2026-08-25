@@ -40,7 +40,7 @@ type SetterWithProps = SetterSchema & {
 }
 defineProps<{
     setters: SetterWithProps[]
-    formData: Record<string, any> | null
+    formData: MaterialSchema | null
 }>()
 
 const { applyChange, startBatch, commitBatch } = useUndoRedo()
