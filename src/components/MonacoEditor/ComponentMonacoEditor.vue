@@ -22,7 +22,7 @@ const modelValue = defineModel<string>()
 
 const editorElement = ref()
 
-let instance
+let instance: editor.IStandaloneCodeEditor
 onMounted(() => {
     instance = editor.create(editorElement.value, {
         value: modelValue.value,
@@ -44,7 +44,7 @@ onMounted(() => {
 
 watch(modelValue, (newVal) => {
     if (newVal === instance.getValue()) return
-    instance.setValue(newVal)
+    instance.setValue(newVal!)
 })
 </script>
 
@@ -57,5 +57,13 @@ watch(modelValue, (newVal) => {
     height: 100%;
     min-height: 400px;
     width: 100%;
+
+    // 覆盖父级（App.vue .container）继承下来的 text-align: center
+    // Monaco 内部的行号、whitespace、placeholder 等非 canvas 渲染的文本节点
+    // 会继承 text-align，导致其水平位置与 canvas 计算的字符位置错开
+    :deep(.monaco-editor),
+    :deep(.monaco-editor *) {
+        text-align: left;
+    }
 }
 </style>

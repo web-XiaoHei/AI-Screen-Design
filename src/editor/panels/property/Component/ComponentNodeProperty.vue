@@ -2,7 +2,7 @@
     <div class="node-property">
 
         <div class="node-title">
-            <span>{{ selectedNode.name }}</span>
+            <span>{{ selectedNode!.name }}</span>
             <div class="flex gap-20">
                 <!-- <span class="cursor-pointer" @click="eventVisible = true">
                     <Icon icon="codicon:symbol-event"></Icon>
@@ -81,13 +81,13 @@ function onConfirm() {
     // 拿到新节点
     const newNode = JSON.parse(jsonText.value)
     // 更新
-    editorStore.updateNode(selectedNode.value.id, {
+    editorStore.updateNode(selectedNode.value!.id as string, {
         ...newNode,
         // id type 不能改，沿用之前的
-        id: selectedNode.value.id,
-        type: selectedNode.value.type,
+        id: selectedNode.value!.id,
+        type: selectedNode.value!.type,
     })
-    // 关掉抽屉
+    // 关掉抽屉 
     jsonVisible.value = false
 }
 </script>
