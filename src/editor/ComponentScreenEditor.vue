@@ -5,6 +5,9 @@ defineOptions({
 });
 
 const editorStore = useEditorStore();
+const { dataSource } = storeToRefs(editorStore)
+
+provide('dataSource', dataSource)
 
 const materialWidth = computed(() => (editorStore.panelVisible.material ? 'w-256' : 'w-0'));
 const layerWidth = computed(() => (editorStore.panelVisible.layer ? 'w-156' : 'w-0'));

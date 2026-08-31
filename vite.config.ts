@@ -35,7 +35,7 @@ export default defineConfig({
         },
         {
           from: '@/schema/page',
-          imports: ['CanvasSchema', 'PageSchema'],
+          imports: ['CanvasSchema', 'PageSchema', 'DataSourceSchema'],
           type: true,
         },
       ],

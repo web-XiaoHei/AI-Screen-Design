@@ -27,6 +27,28 @@ export const useEditorStore = defineStore('editor', () => {
       backgroundColor: '#0d121b',
     },
     nodes: [],
+    dataSources: [
+      {
+        type: 'static',
+        id: '123',
+        name: '静态数据源1',
+        data: [
+          { label: '一月', value: '100' },
+          { label: '二月', value: '200' },
+          { label: '三月', value: '300' },
+        ],
+      },
+      {
+        type: 'static',
+        id: '456',
+        name: '静态数据源2',
+        data: [
+          { label: '一月', value: '500' },
+          { label: '二月', value: '300' },
+          { label: '三月', value: '800' },
+        ],
+      },
+    ],
   })
 
   /**
@@ -39,6 +61,8 @@ export const useEditorStore = defineStore('editor', () => {
    * 这里保留为 Ref 形态，方便在模板和组件中使用 .value 访问数组。
    */
   const nodes = toRef(page, 'nodes') as Ref<MaterialSchema[]>
+
+  const dataSource = toRef(page, 'dataSources') as Ref<DataSourceSchema[]>
 
   function setPage(newPage: PageSchema) {
     Object.assign(page, newPage)
@@ -190,6 +214,7 @@ export const useEditorStore = defineStore('editor', () => {
     selectedNodeIds,
     selectedTarget,
     selectedNode,
+    dataSource,
     addNode,
     selectNode,
     selectNodes,

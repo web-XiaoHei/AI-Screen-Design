@@ -13,6 +13,7 @@ export interface MaterialSchema {
   locked?: boolean
   style?: Record<string, unknown>
   props: Record<string, unknown>
+  dataId?: string
 }
 
 export interface SetterSchema {

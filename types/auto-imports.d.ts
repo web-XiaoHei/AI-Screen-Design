@@ -6,6 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const DataSourceSchema: typeof import('pinia-plugin-persistedstate').DataSourceSchema
   const EffectScope: typeof import('vue').EffectScope
   const ElCke: typeof import('element-plus/es').ElCke
   const ElColorPicker: typeof import('element-plus/es').ElColorPicker
@@ -105,7 +106,7 @@ declare global {
   export type { MaterialProps, GroupProps } from '@/api/editor/panels/material/material'
   import('@/api/editor/panels/material/material')
   // @ts-ignore
-  export type { CanvasSchema, PageSchema } from '@/schema/page'
+  export type { CanvasSchema, PageSchema, DataSourceSchema } from '@/schema/page'
   import('@/schema/page')
   // @ts-ignore
   export type { LayerPanelProps } from '../src/api/editor/panels/layer/layerPanel'
