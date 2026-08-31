@@ -11,6 +11,7 @@ declare global {
   const ElColorPicker: typeof import('element-plus/es').ElColorPicker
   const ElInput: typeof import('element-plus/es').ElInput
   const ElInputNumber: typeof import('element-plus/es').ElInputNumber
+  const ElM: typeof import('element-plus/es').ElM
   const ElS: typeof import('element-plus/es').ElS
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const computed: typeof import('vue').computed

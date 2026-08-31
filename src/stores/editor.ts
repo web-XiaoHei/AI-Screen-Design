@@ -40,6 +40,10 @@ export const useEditorStore = defineStore('editor', () => {
    */
   const nodes = toRef(page, 'nodes') as Ref<MaterialSchema[]>
 
+  function setPage(newPage: PageSchema) {
+    Object.assign(page, newPage)
+  }
+
   /**
    * 当前选中节点的 id 列表。
    * 可支持多选：所有被选中的节点都保存在这里，后续可扩展批量操作。
@@ -197,5 +201,6 @@ export const useEditorStore = defineStore('editor', () => {
     moveBottom,
     toggleLock,
     updateNode,
+    setPage,
   }
 })
