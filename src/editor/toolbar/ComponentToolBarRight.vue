@@ -9,6 +9,9 @@
         <div class="toolItem">
             <icon-fluent-mdl2-publish-course />
         </div>
+        <div class="toolItem" @click="openDataSource">
+            <icon-ep-coin />
+        </div>
         <div class="toolItem" @click="onImport">
             <icon-lucide-import />
         </div>
@@ -24,6 +27,9 @@
                 <el-button type="primary" @click="confirmFn">确认</el-button>
             </template>
         </el-drawer>
+        <el-dialog destroy-on-close v-model="dataSourceVisible" title="数据源配置" width="50%">
+            <component-data-source-manager />
+        </el-dialog>
     </div>
 </template>
 
@@ -40,6 +46,7 @@ const { page } = storeToRefs(editorStore)
 const visible = ref(false)
 const jsonText = ref('')
 const importRef = useTemplateRef('importRef')
+const dataSourceVisible = ref(false)
 
 function previewJson() {
     visible.value = true
@@ -50,6 +57,10 @@ function confirmFn() {
     const newPage = JSON.parse(jsonText.value)
     editorStore.setPage(newPage)
     visible.value = false
+}
+
+function openDataSource() {
+    dataSourceVisible.value = true
 }
 
 function onExport() {

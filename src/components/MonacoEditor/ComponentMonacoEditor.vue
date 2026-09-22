@@ -18,14 +18,14 @@ window.MonacoEnvironment = {
 
 const props = defineProps<{ lang?: string }>()
 
-const modelValue = defineModel<string>()
+const modelValue = defineModel<string>({ default: '' })
 
 const editorElement = ref()
 
-let instance: editor.IStandaloneCodeEditor
+let instance: editor.IStandaloneCodeEditor | null = null
 onMounted(() => {
     instance = editor.create(editorElement.value, {
-        value: modelValue.value,
+        value: modelValue.value ?? '',
         theme: 'vs-dark',
         language: props.lang || 'json',
         fontSize: 14,
@@ -34,17 +34,23 @@ onMounted(() => {
         automaticLayout: true,
     })
     instance.onDidChangeModelContent(() => {
-        modelValue.value = instance.getValue()
-    })
-
-    onBeforeUnmount(() => {
-        instance.dispose()
+        if (instance) {
+            modelValue.value = instance.getValue()
+        }
     })
 })
 
+onBeforeUnmount(() => {
+    instance?.dispose()
+    instance = null
+})
+
 watch(modelValue, (newVal) => {
-    if (newVal === instance.getValue()) return
-    instance.setValue(newVal!)
+    if (!instance) return
+
+    const value = newVal ?? ''
+    if (value === instance.getValue()) return
+    instance.setValue(value)
 })
 </script>
 

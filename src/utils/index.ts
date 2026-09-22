@@ -81,3 +81,84 @@ export function setValue(target: object, key: string, value: unknown): void {
 
   current[lastKey] = value
 }
+
+
+export function deepClone<T>(value: T): T {
+  const seen = new WeakMap<object, unknown>()
+
+  const clone = <U>(current: U): U => {
+    if (current === null || typeof current !== 'object') {
+      return current
+    }
+
+    const target = current as object
+    const cached = seen.get(target)
+    if (cached !== undefined) {
+      return cached as U
+    }
+
+    if (current instanceof Date) {
+      const result = new Date(current.getTime())
+      seen.set(target, result)
+      return result as U
+    }
+
+    if (current instanceof RegExp) {
+      const result = new RegExp(current.source, current.flags)
+      seen.set(target, result)
+      return result as U
+    }
+
+    if (current instanceof Map) {
+      const result = new Map()
+      seen.set(target, result)
+
+      current.forEach((mapValue, mapKey) => {
+        result.set(clone(mapKey), clone(mapValue))
+      })
+
+      return result as U
+    }
+
+    if (current instanceof Set) {
+      const result = new Set()
+      seen.set(target, result)
+
+      current.forEach((setValue) => {
+        result.add(clone(setValue))
+      })
+
+      return result as U
+    }
+
+    if (Array.isArray(current)) {
+      const result: unknown[] = []
+      seen.set(target, result)
+
+      current.forEach((item, index) => {
+        result[index] = clone(item)
+      })
+
+      return result as U
+    }
+
+    const proto = Object.getPrototypeOf(target)
+    const result = Object.create(proto)
+    seen.set(target, result)
+
+    for (const key of Reflect.ownKeys(target)) {
+      const descriptor = Object.getOwnPropertyDescriptor(target, key)
+      if (!descriptor) continue
+
+      const value = (target as Record<PropertyKey, unknown>)[key]
+      Object.defineProperty(result, key, {
+        ...descriptor,
+        value: clone(value),
+      })
+    }
+
+    return result as U
+  }
+
+  return clone(value)
+}
