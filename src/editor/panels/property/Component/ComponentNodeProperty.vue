@@ -42,7 +42,24 @@
 import { getMaterialsSetters } from '@/materials'
 
 defineOptions({
-    name: 'ComponentNodeProperty'
+    name: 'ComponentNodeProperty',
+    directives: {
+        clickOutside: {
+            mounted(el, binding) {
+                const { value } = binding
+                const handler = (e: MouseEvent) => {
+                    if (!el.contains(e.target as Node)) {
+                        value()
+                    }
+                }
+                document.addEventListener('click', handler)
+                el._clickOutsideHandler = handler
+            },
+            unmounted(el) {
+                document.removeEventListener('click', el._clickOutsideHandler)
+            }
+        }
+    }
 })
 
 const editorStore = useEditorStore()

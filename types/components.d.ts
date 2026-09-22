@@ -11,7 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AboutView: typeof import('./../src/views/AboutView.vue')['default']
     ComponentBarCharts: typeof import('./../src/materials/charts/Component/ComponentBarCharts.vue')['default']
     ComponentCanvas: typeof import('./../src/editor/canvas/ComponentCanvas.vue')['default']
     ComponentCanvasProperty: typeof import('./../src/editor/panels/property/Component/ComponentCanvasProperty.vue')['default']
@@ -40,16 +39,10 @@ declare module 'vue' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElOption: typeof import('element-plus/es')['ElOption']
-    ElOptionv: typeof import('element-plus/es')['ElOptionv']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    HelloWorld: typeof import('./../src/components/HelloWorld.vue')['default']
-    HomeView: typeof import('./../src/views/HomeView.vue')['default']
-    IconCommunity: typeof import('./../src/components/icons/IconCommunity.vue')['default']
-    IconDocumentation: typeof import('./../src/components/icons/IconDocumentation.vue')['default']
-    IconEcosystem: typeof import('./../src/components/icons/IconEcosystem.vue')['default']
     IconFluentLayer20Filled: typeof import('~icons/fluent/layer20-filled')['default']
     IconFluentMdl2PublishCourse: typeof import('~icons/fluent-mdl2/publish-course')['default']
     IconFluentPanelLeft20Filled: typeof import('~icons/fluent/panel-left20-filled')['default']
@@ -60,11 +53,7 @@ declare module 'vue' {
     IconMaterialSymbolsRedo: typeof import('~icons/material-symbols/redo')['default']
     IconMaterialSymbolsUndo: typeof import('~icons/material-symbols/undo')['default']
     IconSiJsonDuotone: typeof import('~icons/si/json-duotone')['default']
-    IconSupport: typeof import('./../src/components/icons/IconSupport.vue')['default']
-    IconTooling: typeof import('./../src/components/icons/IconTooling.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheWelcome: typeof import('./../src/components/TheWelcome.vue')['default']
-    WelcomeItem: typeof import('./../src/components/WelcomeItem.vue')['default']
   }
 }

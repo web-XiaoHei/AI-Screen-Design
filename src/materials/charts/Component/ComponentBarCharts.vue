@@ -25,6 +25,7 @@ let charts: ReturnType<typeof init> | null = null
 let resizeObserver: ResizeObserver | null = null
 
 const dataId = computed(() => props.schema.dataId)
+
 const { data } = useDataSource(dataId as Ref<string>)
 
 const option = computed<EChartsOption>(() => {
@@ -50,7 +51,7 @@ watch(option, (opt) => {
 onMounted(() => {
     if (!chartRef.value) return
     charts = init(chartRef.value)
-    charts.setOption(option.value)
+    charts.setOption(option.value) 
 
     resizeObserver = new ResizeObserver(() => {
         charts?.resize()

@@ -11,10 +11,15 @@ import tailwindcss from '@tailwindcss/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 
+import { mockDevServerPlugin } from 'vite-plugin-mock-dev-server'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    mockDevServerPlugin({
+      prefix: ['/api'],
+    }),
     vueDevTools(),
     AutoImport({
       imports: [
@@ -22,6 +27,12 @@ export default defineConfig({
         'pinia',
         {
           'pinia-plugin-persistedstate': ['createPersistedState'],
+        },
+        {
+          'vite-plugin-mock-dev-server': ['defineMock'],
+        },
+        {
+          mockjs: [['default', 'Mock']],
         },
         {
           from: '@/api/editor/panels/layer/layerPanel',
@@ -35,7 +46,7 @@ export default defineConfig({
         },
         {
           from: '@/schema/page',
-          imports: ['CanvasSchema', 'PageSchema', 'DataSourceSchema'],
+          imports: ['CanvasSchema', 'PageSchema', 'DataSourceSchema', 'DataSourceItem'],
           type: true,
         },
       ],

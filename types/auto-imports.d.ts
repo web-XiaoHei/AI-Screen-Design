@@ -14,6 +14,7 @@ declare global {
   const ElInputNumber: typeof import('element-plus/es').ElInputNumber
   const ElM: typeof import('element-plus/es').ElM
   const ElS: typeof import('element-plus/es').ElS
+  const Mock: typeof import('mockjs').default
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const computed: typeof import('vue').computed
   const createApp: typeof import('vue').createApp
@@ -22,6 +23,7 @@ declare global {
   const customRef: typeof import('vue').customRef
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
+  const defineMock: typeof import('vite-plugin-mock-dev-server').defineMock
   const defineStore: typeof import('pinia').defineStore
   const effectScope: typeof import('vue').effectScope
   const getActivePinia: typeof import('pinia').getActivePinia
@@ -106,7 +108,7 @@ declare global {
   export type { MaterialProps, GroupProps } from '@/api/editor/panels/material/material'
   import('@/api/editor/panels/material/material')
   // @ts-ignore
-  export type { CanvasSchema, PageSchema, DataSourceSchema } from '@/schema/page'
+  export type { CanvasSchema, PageSchema, DataSourceSchema, DataSourceItem } from '@/schema/page'
   import('@/schema/page')
   // @ts-ignore
   export type { LayerPanelProps } from '../src/api/editor/panels/layer/layerPanel'

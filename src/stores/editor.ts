@@ -48,6 +48,23 @@ export const useEditorStore = defineStore('editor', () => {
           { label: '三月', value: '800' },
         ],
       },
+      {
+        type: 'api',
+        id: '789',
+        name: 'API 数据源1',
+        url: '/api/data',
+        interval: 5000,
+        params: { date: '2026-01-01' },
+        data: [],
+      },
+      {
+        type: 'api',
+        id: '101112',
+        name: 'API 数据源2',
+        url: '/api/data',
+        interval: 10000,
+        data: [],
+      },
     ],
   })
 
