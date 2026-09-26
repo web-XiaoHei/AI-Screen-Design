@@ -28,7 +28,12 @@
             </template>
         </el-drawer>
         <el-dialog destroy-on-close v-model="dataSourceVisible" title="数据源配置" width="50%">
-            <component-data-source-manager />
+            <component-data-source-manager ref="dataSourceManagerRef" />
+
+            <template #footer>
+                <el-button @click="dataSourceVisible = false">取消</el-button>
+                <el-button @click="onSave" type="primary">确认</el-button>
+            </template>
         </el-dialog>
     </div>
 </template>
@@ -47,6 +52,8 @@ const visible = ref(false)
 const jsonText = ref('')
 const importRef = useTemplateRef('importRef')
 const dataSourceVisible = ref(false)
+
+const dataSourceManagerRef = useTemplateRef('dataSourceManagerRef')
 
 function previewJson() {
     visible.value = true
@@ -94,6 +101,12 @@ async function onFileChange(e: Event) {
         // 重置 input value，允许重复导入同一文件
         target.value = ''
     }
+}
+
+function onSave() {
+    // 调用 DataSourceManager 中暴漏的方法
+    dataSourceManagerRef.value!.save()
+    dataSourceVisible.value = false
 }
 
 </script>

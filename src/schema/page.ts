@@ -26,6 +26,16 @@ export interface ApiDataSourceSchema {
    * 接口请求的 URL
    */
   url: string
+  /**
+   * 请求方法
+   */
+  method?: 'get' | 'post'
+  /**
+   * 相应路径
+   * data = { list:[/../] }
+   * list
+   */
+  responsePath?: string
   data: DataSourceItem[]
   interval?: number
   params?: Record<string, unknown>
