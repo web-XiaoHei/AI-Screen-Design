@@ -106,8 +106,12 @@ export function useDataSource(dataId: Ref<string>) {
 }
 
 /**
- * 复用同一请求配置的 Promise，避免相同参数重复发起网络请求。
- * 例如：{ "url":"/api/data","method":"get","params":{"date":"2026-01-01"}}: Promise }
+ * 统一封装 API 数据源请求，负责合并默认参数、缓存同配置请求并提取返回结果。
+ *
+ * - 读取 URL 中的查询参数作为默认参数
+ * - 让数据源配置参数优先级低于 URL 参数，但高于手动传参
+ * - 对同一 url + method + params 配置复用 Promise，避免重复请求
+ * - 通过 responsePath 读取被嵌套在返回体中的列表数据
  */
 const requestMap: Record<string, Promise<unknown>> = {}
 
@@ -118,20 +122,27 @@ type RequestConfig = {
   data?: Record<string, unknown>
 }
 
-export async function fetchData(source: ApiDataSourceSchema, data?: Record<string, unknown>) {
-  if (!source.url) {
-    return undefined
-  }
-
-  // 从 URL 查询参数中提取默认参数，这些参数的优先级低于数据源配置，但高于手动传入的调用参数。
+/**
+ * 将数据源参数、URL 参数和手动传参按优先级合并为最终请求参数。
+ *
+ * 优先级：source.params < URL 查询参数 < data
+ */
+function buildRequestParams(source: ApiDataSourceSchema, data?: Record<string, unknown>) {
   const searchParams = new URLSearchParams(location.search)
   const urlParams = Object.fromEntries(searchParams.entries())
 
-  const queryParams = {
+  return {
     ...(source.params ?? {}),
     ...urlParams,
     ...(data ?? {}),
   }
+}
+
+/**
+ * 生成 Axios 请求配置，并根据 HTTP 方法将参数放到 params 或 data 字段。
+ */
+function buildRequestConfig(source: ApiDataSourceSchema, data?: Record<string, unknown>): RequestConfig {
+  const queryParams = buildRequestParams(source, data)
 
   const config: RequestConfig = {
     url: source.url,
@@ -144,6 +155,36 @@ export async function fetchData(source: ApiDataSourceSchema, data?: Record<strin
     config.params = queryParams
   }
 
+  return config
+}
+
+/**
+ * 从接口响应中取出目标列表数据。
+ * 默认提取 `data.list`，也支持通过 responsePath 自定义路径。
+ */
+function resolveResponseData(source: ApiDataSourceSchema, res: unknown) {
+  return getValue(res as object, source.responsePath ?? 'data.list')
+}
+
+/**
+ * 发送 API 数据源请求，并根据配置返回列表数据。
+ *
+ * 作用：
+ * 1. 合并默认参数：dataSource.params + URL 查询参数 + 调用时传参
+ * 2. 根据请求方式决定字段：GET -> params，POST -> data
+ * 3. 缓存相同请求配置，避免重复网络请求
+ * 4. 使用 responsePath 解析接口返回中的数据列表
+ *
+ * @param source API 数据源配置
+ * @param data 额外传入的参数，优先级最高
+ * @returns 解析后的数据列表或 undefined
+ */
+export async function fetchData(source: ApiDataSourceSchema, data?: Record<string, unknown>) {
+  if (!source.url) {
+    return undefined
+  }
+
+  const config = buildRequestConfig(source, data)
   const key = JSON.stringify(config)
 
   if (requestMap[key]) {
@@ -153,9 +194,7 @@ export async function fetchData(source: ApiDataSourceSchema, data?: Record<strin
 
   const promise = axios
     .request(config)
-    .then((res) => {
-      return getValue(res.data as object, source.responsePath ?? 'data.list')
-    })
+    .then((res) => resolveResponseData(source, res.data))
     .finally(() => {
       delete requestMap[key]
     })
