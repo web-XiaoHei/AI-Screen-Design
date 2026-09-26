@@ -10,6 +10,9 @@ export function useDataSource(dataId: Ref<string>) {
   const dataSource = inject<Ref<DataSourceSchema[]>>('dataSource')
   const source = computed(() => dataSource?.value.find((item) => item.id === dataId.value))
   const data = ref<DataSourceItem[]>([])
+  const loading = ref(false)
+  const error = ref()
+
   let timer: ReturnType<typeof setTimeout> | undefined
   let controller: AbortController | undefined
   let requestId = 0
@@ -34,7 +37,7 @@ export function useDataSource(dataId: Ref<string>) {
     }, interval)
   }
 
-  async function loadData() {
+  async function loadData(): Promise<void> {
     const current = source.value
     const id = ++requestId
 
@@ -55,6 +58,8 @@ export function useDataSource(dataId: Ref<string>) {
     controller = currentController
 
     try {
+      // 请求之前，设置 loading
+      loading.value = true
       // 仅对 API 数据源执行轮询请求，并在请求中止时忽略结果。
       const res = await axios.get(url, {
         params,
@@ -65,11 +70,14 @@ export function useDataSource(dataId: Ref<string>) {
 
       const list = getValue(res.data as Record<string, unknown>, 'data.list')
       data.value = Array.isArray(list) ? (list as DataSourceItem[]) : []
-    } catch (error) {
-      if (!axios.isCancel(error) && !disposed && id === requestId) {
-        console.error('Load data failed:', error)
+    } catch (err: unknown) {
+      error.value = err
+      if (!axios.isCancel(err) && !disposed && id === requestId) {
+        console.error('Load data failed:', err)
       }
     } finally {
+      // 请求回来了，取消 loading
+      loading.value = false
       if (controller === currentController) {
         controller = undefined
       }
@@ -94,7 +102,7 @@ export function useDataSource(dataId: Ref<string>) {
     stopPolling()
   })
 
-  return { data }
+  return { data, loading, error, refresh: loadData }
 }
 
 /**

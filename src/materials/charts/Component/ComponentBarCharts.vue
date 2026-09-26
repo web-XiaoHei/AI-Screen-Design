@@ -1,5 +1,5 @@
 <template>
-    <div class="chart-material w-full h-full" ref="chart">
+    <div v-loading="loading" class="chart-material w-full h-full" ref="chart">
     </div>
 </template>
 
@@ -26,7 +26,7 @@ let resizeObserver: ResizeObserver | null = null
 
 const dataId = computed(() => props.schema.dataId)
 
-const { data } = useDataSource(dataId as Ref<string>)
+const { data, loading, refresh } = useDataSource(dataId as Ref<string>)
 
 const option = computed<EChartsOption>(() => {
     const _option = props.schema.props.option
@@ -51,7 +51,7 @@ watch(option, (opt) => {
 onMounted(() => {
     if (!chartRef.value) return
     charts = init(chartRef.value)
-    charts.setOption(option.value) 
+    charts.setOption(option.value)
 
     resizeObserver = new ResizeObserver(() => {
         charts?.resize()
@@ -65,6 +65,10 @@ onBeforeUnmount(() => {
     charts?.dispose()
     resizeObserver = null
     charts = null
+})
+
+defineExpose({
+    refresh,
 })
 
 </script>
