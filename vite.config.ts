@@ -29,6 +29,13 @@ export default defineConfig({
           'pinia-plugin-persistedstate': ['createPersistedState'],
         },
         {
+          vite: ['loadEnv'],
+        },
+        'vue-router',
+        {
+          'vue-router': ['createRouter', 'createWebHistory'],
+        },
+        {
           'vite-plugin-mock-dev-server': ['defineMock'],
         },
         {
@@ -58,7 +65,8 @@ export default defineConfig({
       dirs: [
         'src/components',
         'src/layouts',
-        'src/views',
+        'src/views  ',
+        'src/pages ',
         'src/editor/**',
         'src/materials/**',
         'src/schema/**',

@@ -1,6 +1,6 @@
 <template>
     <div class="toolRight flex gap-20">
-        <div class="toolItem">
+        <div class="toolItem" @click="onPreview">
             <icon-fluent-preview-link-20-filled />
         </div>
         <div class="toolItem" @click="previewJson">
@@ -41,7 +41,6 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 
-
 defineOptions({
     name: 'toolbar-left'
 })
@@ -54,6 +53,8 @@ const importRef = useTemplateRef('importRef')
 const dataSourceVisible = ref(false)
 
 const dataSourceManagerRef = useTemplateRef('dataSourceManagerRef')
+
+const router = useRouter()
 
 function previewJson() {
     visible.value = true
@@ -107,6 +108,15 @@ function onSave() {
     // 调用 DataSourceManager 中暴漏的方法
     dataSourceManagerRef.value!.save()
     dataSourceVisible.value = false
+}
+
+function onPreview() {
+    router.push({
+        name: 'preview',
+        query: {
+            // pageId: page.value.id,
+        },
+    })
 }
 
 </script>

@@ -20,6 +20,8 @@ declare global {
   const createApp: typeof import('vue').createApp
   const createPersistedState: typeof import('pinia-plugin-persistedstate').createPersistedState
   const createPinia: typeof import('pinia').createPinia
+  const createRouter: typeof import('vue-router').createRouter
+  const createWebHistory: typeof import('vue-router').createWebHistory
   const customRef: typeof import('vue').customRef
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
@@ -45,6 +47,7 @@ declare global {
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
   const isShallow: typeof import('vue').isShallow
+  const loadEnv: typeof import('vite').loadEnv
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
   const mapState: typeof import('pinia').mapState
@@ -54,6 +57,8 @@ declare global {
   const nextTick: typeof import('vue').nextTick
   const onActivated: typeof import('vue').onActivated
   const onBeforeMount: typeof import('vue').onBeforeMount
+  const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
+  const onBeforeRouteUpdate: typeof import('vue-router').onBeforeRouteUpdate
   const onBeforeUnmount: typeof import('vue').onBeforeUnmount
   const onBeforeUpdate: typeof import('vue').onBeforeUpdate
   const onDeactivated: typeof import('vue').onDeactivated
@@ -91,7 +96,10 @@ declare global {
   const useCssVars: typeof import('vue').useCssVars
   const useEditorStore: typeof import('../src/stores/editor').useEditorStore
   const useId: typeof import('vue').useId
+  const useLink: typeof import('vue-router').useLink
   const useModel: typeof import('vue').useModel
+  const useRoute: typeof import('vue-router').useRoute
+  const useRouter: typeof import('vue-router').useRouter
   const useSlots: typeof import('vue').useSlots
   const useTemplateRef: typeof import('vue').useTemplateRef
   const watch: typeof import('vue').watch

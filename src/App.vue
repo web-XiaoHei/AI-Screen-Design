@@ -2,10 +2,7 @@
 </script>
 
 <template>
-  <div class="w-75 container">
-
-    <ComponentScreenEditor />
-  </div>
+  <router-view />
 </template>
 
 <style scoped lang="scss">
