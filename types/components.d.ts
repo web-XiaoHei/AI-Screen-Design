@@ -24,6 +24,7 @@ declare module 'vue' {
     ComponentNodeProperty: typeof import('./../src/editor/panels/property/Component/ComponentNodeProperty.vue')['default']
     ComponentProperty: typeof import('./../src/editor/panels/property/ComponentProperty.vue')['default']
     ComponentScreenEditor: typeof import('./../src/editor/ComponentScreenEditor.vue')['default']
+    ComponentScreenRender: typeof import('./../src/components/ScreenRender/ComponentScreenRender.vue')['default']
     ComponentTextMaterial: typeof import('./../src/materials/text/Component/ComponentTextMaterial.vue')['default']
     ComponentToolBarLeft: typeof import('./../src/editor/toolbar/ComponentToolBarLeft.vue')['default']
     ComponentToolBarRight: typeof import('./../src/editor/toolbar/ComponentToolBarRight.vue')['default']

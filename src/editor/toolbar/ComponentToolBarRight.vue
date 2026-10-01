@@ -6,7 +6,7 @@
         <div class="toolItem" @click="previewJson">
             <icon-si-json-duotone />
         </div>
-        <div class="toolItem">
+        <div class="toolItem" @click="onPublish">
             <icon-fluent-mdl2-publish-course />
         </div>
         <div class="toolItem" @click="openDataSource">
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { publishPage } from '@/utils/publish'
 import { ElMessage } from 'element-plus'
 
 defineOptions({
@@ -113,6 +114,17 @@ function onSave() {
 function onPreview() {
     router.push({
         name: 'preview',
+        query: {
+            // pageId: page.value.id,
+        },
+    })
+}
+
+function onPublish() {
+    // 这里可以添加发布逻辑，暂时保存在localStorage
+    publishPage(page.value)
+    router.push({
+        name: 'screen',
         query: {
             // pageId: page.value.id,
         },

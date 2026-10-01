@@ -1,5 +1,6 @@
 import ComponentScreenEditor from '@/editor/ComponentScreenEditor.vue'
 import Preview from '@/pages/preview/PreView.vue'
+import Screen from '@/pages/screen/Screen.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -18,6 +19,11 @@ const router = createRouter({
       path: '/preview',
       name: 'preview',
       component: () => Preview,
+    },
+    {
+      path: '/screen',
+      name: 'screen',
+      component: () => Screen,
     },
   ],
 })
